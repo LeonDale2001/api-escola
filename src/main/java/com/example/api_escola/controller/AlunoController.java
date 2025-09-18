@@ -38,9 +38,20 @@ public class AlunoController {
         return ResponseEntity.ok(atualizado);
     }
 
+    // Deletar passando id na URL
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> remover(@PathVariable Long id) {
         service.remover(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    // Deletar passando id no body
+    @DeleteMapping
+    public ResponseEntity<Void> removerPorBody(@RequestBody Aluno aluno) {
+        if (aluno.getId() == null) {
+            return ResponseEntity.badRequest().build();
+        }
+        service.remover(aluno.getId());
         return ResponseEntity.noContent().build();
     }
 
