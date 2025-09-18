@@ -11,7 +11,7 @@ public class Turma {
     private Long id;
 
     private int ano;
-    private String periodo;
+    private int periodo;
 
     // Uma turma possui 1 professor
     @ManyToOne
@@ -27,8 +27,8 @@ public class Turma {
     public void setId(Long id) { this.id = id; }
     public int getAno() { return ano; }
     public void setAno(int ano) { this.ano = ano; }
-    public String getPeriodo() { return periodo; }
-    public void setPeriodo(String periodo) { this.periodo = periodo; }
+    public int getPeriodo() { return periodo; }
+    public void setPeriodo(int periodo) { this.periodo = periodo; }
     public Professor getProfessor() { return professor; }
     public void setProfessor(Professor professor) { this.professor = professor; }
     public List<Inscricao> getInscricoes() { return inscricoes; }
