@@ -22,9 +22,20 @@ public class AlunoController {
         return service.salvar(aluno);
     }
 
+    // Atualizar passando id na URL
     @PutMapping("/{id}")
     public Aluno atualizar(@PathVariable Long id, @RequestBody Aluno aluno) {
         return service.atualizar(id, aluno);
+    }
+
+    // Atualizar passando id no corpo
+    @PutMapping
+    public ResponseEntity<Aluno> atualizarPorBody(@RequestBody Aluno aluno) {
+        if (aluno.getId() == null) {
+            return ResponseEntity.badRequest().build();
+        }
+        Aluno atualizado = service.atualizar(aluno.getId(), aluno);
+        return ResponseEntity.ok(atualizado);
     }
 
     @DeleteMapping("/{id}")
