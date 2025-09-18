@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import java.util.List;
 
 @Entity
-public class Aluno {
+public class Professor {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -13,9 +13,9 @@ public class Aluno {
     private String nome;
     private String email;
 
-    // Um aluno possui zero ou mais inscrições
-    @OneToMany(mappedBy = "aluno", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Inscricao> inscricoes;
+    // Um professor leciona zero ou mais turmas
+    @OneToMany(mappedBy = "professor")
+    private List<Turma> turmas;
 
     // Getters e Setters
     public Long getId() { return id; }
@@ -24,6 +24,6 @@ public class Aluno {
     public void setNome(String nome) { this.nome = nome; }
     public String getEmail() { return email; }
     public void setEmail(String email) { this.email = email; }
-    public List<Inscricao> getInscricoes() { return inscricoes; }
-    public void setInscricoes(List<Inscricao> inscricoes) { this.inscricoes = inscricoes; }
+    public List<Turma> getTurmas() { return turmas; }
+    public void setTurmas(List<Turma> turmas) { this.turmas = turmas; }
 }
