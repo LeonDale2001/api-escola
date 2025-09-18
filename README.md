@@ -13,7 +13,8 @@ Na raiz do projeto (`api-escola`), crie um arquivo chamado:
 E adicione:
 
 ```env
-DB_URL=jdbc:mysql://localhost:3306/api_escola?useSSL=false&serverTimezone=UTC
-DB_USERNAME=seu_usuario
-DB_PASSWORD=sua_senha
+DB_URL=jdbc:mysql://<HOST>:<PORT>/<NOME_DO_BANCO>?useSSL=false&serverTimezone=UTC
+DB_USERNAME=<SEU_USUARIO>
+DB_PASSWORD=<SUA_SENHA>
+
 ```
