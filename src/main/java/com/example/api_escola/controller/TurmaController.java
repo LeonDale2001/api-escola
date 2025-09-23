@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/turma")
@@ -18,25 +19,25 @@ public class TurmaController {
         this.service = service;
     }
 
-    // POST usando DTO
+    // POST usando DTO → retorna apenas ID
     @PostMapping
-    public ResponseEntity<Turma> criar(@RequestBody TurmaDTO dto) {
+    public ResponseEntity<Map<String, Long>> criar(@RequestBody TurmaDTO dto) {
         try {
             Turma turma = service.salvar(dto);
-            return ResponseEntity.ok(turma);
+            return ResponseEntity.ok(Map.of("id", turma.getId()));
         } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().body(null);
+            return ResponseEntity.badRequest().build();
         }
     }
 
-    // PUT por ID usando DTO
+    // PUT por ID usando DTO → retorna apenas ID
     @PutMapping("/{id}")
-    public ResponseEntity<Turma> atualizar(@PathVariable Long id, @RequestBody TurmaDTO dto) {
+    public ResponseEntity<Map<String, Long>> atualizar(@PathVariable Long id, @RequestBody TurmaDTO dto) {
         try {
             Turma turma = service.atualizar(id, dto);
-            return ResponseEntity.ok(turma);
+            return ResponseEntity.ok(Map.of("id", turma.getId()));
         } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().body(null);
+            return ResponseEntity.badRequest().build();
         }
     }
 
@@ -46,15 +47,20 @@ public class TurmaController {
         return ResponseEntity.noContent().build();
     }
 
+    // GET por ID → retorna apenas ID e dados principais do DTO
     @GetMapping("/{id}")
-    public ResponseEntity<Turma> buscar(@PathVariable Long id) {
+    public ResponseEntity<TurmaDTO> buscar(@PathVariable Long id) {
         return service.buscarPorId(id)
+                .map(t -> new TurmaDTO(t.getAno(), t.getPeriodo(), t.getProfessor().getId()))
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
+    // GET todos → lista de DTOs
     @GetMapping
-    public List<Turma> listar() {
-        return service.listarTodos();
+    public List<TurmaDTO> listar() {
+        return service.listarTodos().stream()
+                .map(t -> new TurmaDTO(t.getAno(), t.getPeriodo(), t.getProfessor().getId()))
+                .toList();
     }
 }

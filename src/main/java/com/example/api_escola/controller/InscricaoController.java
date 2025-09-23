@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/inscricao")
@@ -18,25 +19,25 @@ public class InscricaoController {
         this.service = service;
     }
 
-    // POST usando DTO
+    // POST usando DTO → retorna apenas ID
     @PostMapping
-    public ResponseEntity<Inscricao> criar(@RequestBody InscricaoDTO dto) {
+    public ResponseEntity<Map<String, Long>> criar(@RequestBody InscricaoDTO dto) {
         try {
             Inscricao inscricao = service.salvar(dto);
-            return ResponseEntity.ok(inscricao);
+            return ResponseEntity.ok(Map.of("id", inscricao.getId()));
         } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().body(null);
+            return ResponseEntity.badRequest().build();
         }
     }
 
-    // PUT por ID usando DTO
+    // PUT por ID usando DTO → retorna apenas ID
     @PutMapping("/{id}")
-    public ResponseEntity<Inscricao> atualizar(@PathVariable Long id, @RequestBody InscricaoDTO dto) {
+    public ResponseEntity<Map<String, Long>> atualizar(@PathVariable Long id, @RequestBody InscricaoDTO dto) {
         try {
             Inscricao inscricao = service.atualizar(id, dto);
-            return ResponseEntity.ok(inscricao);
+            return ResponseEntity.ok(Map.of("id", inscricao.getId()));
         } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().body(null);
+            return ResponseEntity.badRequest().build();
         }
     }
 
@@ -46,15 +47,20 @@ public class InscricaoController {
         return ResponseEntity.noContent().build();
     }
 
+    // GET por ID → retorna apenas dados principais do DTO
     @GetMapping("/{id}")
-    public ResponseEntity<Inscricao> buscar(@PathVariable Long id) {
+    public ResponseEntity<InscricaoDTO> buscar(@PathVariable Long id) {
         return service.buscarPorId(id)
+                .map(i -> new InscricaoDTO(i.getAluno().getId(), i.getTurma().getId(), i.getDataHora()))
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
+    // GET todos → lista de DTOs
     @GetMapping
-    public List<Inscricao> listar() {
-        return service.listarTodos();
+    public List<InscricaoDTO> listar() {
+        return service.listarTodos().stream()
+                .map(i -> new InscricaoDTO(i.getAluno().getId(), i.getTurma().getId(), i.getDataHora()))
+                .toList();
     }
 }

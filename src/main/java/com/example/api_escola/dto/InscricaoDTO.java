@@ -1,20 +1,21 @@
 package com.example.api_escola.dto;
 
-import jakarta.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 public class InscricaoDTO {
-
-    @NotNull(message = "AlunoId é obrigatório")
     private Long alunoId;
-
-    @NotNull(message = "TurmaId é obrigatório")
     private Long turmaId;
-
-    @NotNull(message = "DataHora é obrigatória")
     private LocalDateTime dataHora;
 
-    // Getters e Setters
+    public InscricaoDTO() {}
+
+    public InscricaoDTO(Long alunoId, Long turmaId, LocalDateTime dataHora) {
+        this.alunoId = alunoId;
+        this.turmaId = turmaId;
+        this.dataHora = dataHora;
+    }
+
+    // Getters e setters
     public Long getAlunoId() { return alunoId; }
     public void setAlunoId(Long alunoId) { this.alunoId = alunoId; }
     public Long getTurmaId() { return turmaId; }
