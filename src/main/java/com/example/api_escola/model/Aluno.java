@@ -1,6 +1,7 @@
 package com.example.api_escola.model;
 
 import jakarta.persistence.*;
+import java.util.List;
 
 @Entity
 public class Aluno {
@@ -14,6 +15,7 @@ public class Aluno {
 
     // Um aluno possui zero ou mais inscrições
     @OneToMany(mappedBy = "aluno", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Inscricao> inscricoes;
 
     // Getters e Setters
     public Long getId() { return id; }
@@ -22,4 +24,6 @@ public class Aluno {
     public void setNome(String nome) { this.nome = nome; }
     public String getEmail() { return email; }
     public void setEmail(String email) { this.email = email; }
+    public List<Inscricao> getInscricoes() { return inscricoes; }
+    public void setInscricoes(List<Inscricao> inscricoes) { this.inscricoes = inscricoes; }
 }

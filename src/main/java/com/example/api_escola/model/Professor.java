@@ -1,6 +1,7 @@
 package com.example.api_escola.model;
 
 import jakarta.persistence.*;
+import java.util.List;
 
 @Entity
 public class Professor {
@@ -14,6 +15,7 @@ public class Professor {
 
     // Um professor leciona zero ou mais turmas
     @OneToMany(mappedBy = "professor", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Turma> turmas;
 
     // Getters e Setters
     public Long getId() { return id; }
@@ -22,4 +24,6 @@ public class Professor {
     public void setNome(String nome) { this.nome = nome; }
     public String getEmail() { return email; }
     public void setEmail(String email) { this.email = email; }
+    public List<Turma> getTurmas() { return turmas; }
+    public void setTurmas(List<Turma> turmas) { this.turmas = turmas; }
 }
