@@ -1,5 +1,6 @@
 package com.example.api_escola.controller;
 
+import com.example.api_escola.dto.ProfessorDTO;
 import com.example.api_escola.model.Professor;
 import com.example.api_escola.service.ProfessorService;
 import org.springframework.http.ResponseEntity;
@@ -18,43 +19,38 @@ public class ProfessorController {
     }
 
     @PostMapping
-    public Professor criar(@RequestBody Professor professor) {
-        return service.salvar(professor);
+    public ResponseEntity<ProfessorDTO> criar(@RequestBody Professor professor) {
+        Professor salvo = service.salvar(professor);
+        return ResponseEntity.ok(new ProfessorDTO(salvo.getId(), salvo.getNome(), salvo.getEmail()));
     }
 
     @PutMapping("/{id}")
-    public Professor atualizar(@PathVariable Long id, @RequestBody Professor professor) {
-        return service.atualizar(id, professor);
+    public ResponseEntity<ProfessorDTO> atualizar(@PathVariable Long id, @RequestBody Professor professor) {
+        Professor atualizado = service.atualizar(id, professor);
+        return ResponseEntity.ok(new ProfessorDTO(atualizado.getId(), atualizado.getNome(), atualizado.getEmail()));
     }
-
-    @PutMapping
-    public ResponseEntity<Professor> atualizarPorBody(@RequestBody Professor professor) {
-        if (professor.getId() == null) return ResponseEntity.badRequest().build();
-        return ResponseEntity.ok(service.atualizar(professor.getId(), professor));
-    }
-
+    
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> remover(@PathVariable Long id) {
         service.remover(id);
         return ResponseEntity.noContent().build();
     }
 
-    @DeleteMapping
-    public ResponseEntity<Void> removerPorBody(@RequestBody Professor professor) {
-        if (professor.getId() == null) return ResponseEntity.badRequest().build();
-        service.remover(professor.getId());
-        return ResponseEntity.noContent().build();
-    }
-
     @GetMapping("/{id}")
-    public ResponseEntity<Professor> buscar(@PathVariable Long id) {
+    public ResponseEntity<ProfessorDTO> buscar(@PathVariable Long id) {
         return service.buscarPorId(id)
+                .map(p -> new ProfessorDTO(p.getId(), p.getNome(), p.getEmail()))
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
     @GetMapping
-    public List<Professor> listar() {
-        return service.listarTodos();
+    public List<ProfessorDTO> listar() {
+        return service.listarTodos().stream()
+                .map(p -> new ProfessorDTO(p.getId(), p.getNome(), p.getEmail()))
+                .toList();
     }
+
+
+    
 }
