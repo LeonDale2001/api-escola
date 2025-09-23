@@ -1,5 +1,6 @@
 package com.example.api_escola.controller;
 
+import com.example.api_escola.dto.TurmaDTO;
 import com.example.api_escola.model.Turma;
 import com.example.api_escola.service.TurmaService;
 import org.springframework.http.ResponseEntity;
@@ -17,32 +18,31 @@ public class TurmaController {
         this.service = service;
     }
 
+    // POST usando DTO
     @PostMapping
-    public Turma criar(@RequestBody Turma turma) {
-        return service.salvar(turma);
+    public ResponseEntity<Turma> criar(@RequestBody TurmaDTO dto) {
+        try {
+            Turma turma = service.salvar(dto);
+            return ResponseEntity.ok(turma);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(null);
+        }
     }
 
+    // PUT por ID usando DTO
     @PutMapping("/{id}")
-    public Turma atualizar(@PathVariable Long id, @RequestBody Turma turma) {
-        return service.atualizar(id, turma);
-    }
-
-    @PutMapping
-    public ResponseEntity<Turma> atualizarPorBody(@RequestBody Turma turma) {
-        if (turma.getId() == null) return ResponseEntity.badRequest().build();
-        return ResponseEntity.ok(service.atualizar(turma.getId(), turma));
+    public ResponseEntity<Turma> atualizar(@PathVariable Long id, @RequestBody TurmaDTO dto) {
+        try {
+            Turma turma = service.atualizar(id, dto);
+            return ResponseEntity.ok(turma);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(null);
+        }
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> remover(@PathVariable Long id) {
         service.remover(id);
-        return ResponseEntity.noContent().build();
-    }
-
-    @DeleteMapping
-    public ResponseEntity<Void> removerPorBody(@RequestBody Turma turma) {
-        if (turma.getId() == null) return ResponseEntity.badRequest().build();
-        service.remover(turma.getId());
         return ResponseEntity.noContent().build();
     }
 

@@ -1,5 +1,6 @@
 package com.example.api_escola.controller;
 
+import com.example.api_escola.dto.InscricaoDTO;
 import com.example.api_escola.model.Inscricao;
 import com.example.api_escola.service.InscricaoService;
 import org.springframework.http.ResponseEntity;
@@ -17,32 +18,31 @@ public class InscricaoController {
         this.service = service;
     }
 
+    // POST usando DTO
     @PostMapping
-    public Inscricao criar(@RequestBody Inscricao inscricao) {
-        return service.salvar(inscricao);
+    public ResponseEntity<Inscricao> criar(@RequestBody InscricaoDTO dto) {
+        try {
+            Inscricao inscricao = service.salvar(dto);
+            return ResponseEntity.ok(inscricao);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(null);
+        }
     }
 
+    // PUT por ID usando DTO
     @PutMapping("/{id}")
-    public Inscricao atualizar(@PathVariable Long id, @RequestBody Inscricao inscricao) {
-        return service.atualizar(id, inscricao);
-    }
-
-    @PutMapping
-    public ResponseEntity<Inscricao> atualizarPorBody(@RequestBody Inscricao inscricao) {
-        if (inscricao.getId() == null) return ResponseEntity.badRequest().build();
-        return ResponseEntity.ok(service.atualizar(inscricao.getId(), inscricao));
+    public ResponseEntity<Inscricao> atualizar(@PathVariable Long id, @RequestBody InscricaoDTO dto) {
+        try {
+            Inscricao inscricao = service.atualizar(id, dto);
+            return ResponseEntity.ok(inscricao);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(null);
+        }
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> remover(@PathVariable Long id) {
         service.remover(id);
-        return ResponseEntity.noContent().build();
-    }
-
-    @DeleteMapping
-    public ResponseEntity<Void> removerPorBody(@RequestBody Inscricao inscricao) {
-        if (inscricao.getId() == null) return ResponseEntity.badRequest().build();
-        service.remover(inscricao.getId());
         return ResponseEntity.noContent().build();
     }
 
