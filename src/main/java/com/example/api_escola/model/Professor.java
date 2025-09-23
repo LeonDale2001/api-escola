@@ -14,8 +14,7 @@ public class Professor {
     private String email;
 
     // Um professor leciona zero ou mais turmas
-    @OneToMany(mappedBy = "professor")
-    private List<Turma> turmas;
+    @OneToMany(mappedBy = "professor", cascade = CascadeType.ALL, orphanRemoval = true)
 
     // Getters e Setters
     public Long getId() { return id; }
@@ -24,6 +23,4 @@ public class Professor {
     public void setNome(String nome) { this.nome = nome; }
     public String getEmail() { return email; }
     public void setEmail(String email) { this.email = email; }
-    public List<Turma> getTurmas() { return turmas; }
-    public void setTurmas(List<Turma> turmas) { this.turmas = turmas; }
 }

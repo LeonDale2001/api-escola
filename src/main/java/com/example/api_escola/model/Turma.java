@@ -20,7 +20,7 @@ public class Turma {
 
     // Uma turma pode ter 0 ou mais inscrições
     @OneToMany(mappedBy = "turma", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Inscricao> inscricoes;
+
 
     // Getters e Setters
     public Long getId() { return id; }
@@ -31,6 +31,4 @@ public class Turma {
     public void setPeriodo(int periodo) { this.periodo = periodo; }
     public Professor getProfessor() { return professor; }
     public void setProfessor(Professor professor) { this.professor = professor; }
-    public List<Inscricao> getInscricoes() { return inscricoes; }
-    public void setInscricoes(List<Inscricao> inscricoes) { this.inscricoes = inscricoes; }
 }
