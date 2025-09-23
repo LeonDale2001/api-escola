@@ -7,7 +7,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/turma")
@@ -21,10 +20,11 @@ public class TurmaController {
 
     // POST usando DTO → retorna apenas ID
     @PostMapping
-    public ResponseEntity<Map<String, Long>> criar(@RequestBody TurmaDTO dto) {
+    public ResponseEntity<TurmaDTO> criar(@RequestBody TurmaDTO dto) {
         try {
             Turma turma = service.salvar(dto);
-            return ResponseEntity.ok(Map.of("id", turma.getId()));
+            TurmaDTO resposta = new TurmaDTO(turma.getAno(), turma.getPeriodo(), turma.getProfessor().getId());
+            return ResponseEntity.ok(resposta);
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().build();
         }
@@ -32,10 +32,11 @@ public class TurmaController {
 
     // PUT por ID usando DTO → retorna apenas ID
     @PutMapping("/{id}")
-    public ResponseEntity<Map<String, Long>> atualizar(@PathVariable Long id, @RequestBody TurmaDTO dto) {
+    public ResponseEntity<TurmaDTO> atualizar(@PathVariable Long id, @RequestBody TurmaDTO dto) {
         try {
             Turma turma = service.atualizar(id, dto);
-            return ResponseEntity.ok(Map.of("id", turma.getId()));
+            TurmaDTO resposta = new TurmaDTO(turma.getAno(), turma.getPeriodo(), turma.getProfessor().getId());
+            return ResponseEntity.ok(resposta);
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().build();
         }

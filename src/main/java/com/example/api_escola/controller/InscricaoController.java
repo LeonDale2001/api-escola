@@ -7,7 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
+
 
 @RestController
 @RequestMapping("/inscricao")
@@ -21,10 +21,11 @@ public class InscricaoController {
 
     // POST usando DTO → retorna apenas ID
     @PostMapping
-    public ResponseEntity<Map<String, Long>> criar(@RequestBody InscricaoDTO dto) {
+    public ResponseEntity<InscricaoDTO> criar(@RequestBody InscricaoDTO dto) {
         try {
             Inscricao inscricao = service.salvar(dto);
-            return ResponseEntity.ok(Map.of("id", inscricao.getId()));
+            InscricaoDTO resposta = new InscricaoDTO(inscricao.getAluno().getId(), inscricao.getTurma().getId(), inscricao.getDataHora());
+            return ResponseEntity.ok(resposta);
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().build();
         }
@@ -32,10 +33,11 @@ public class InscricaoController {
 
     // PUT por ID usando DTO → retorna apenas ID
     @PutMapping("/{id}")
-    public ResponseEntity<Map<String, Long>> atualizar(@PathVariable Long id, @RequestBody InscricaoDTO dto) {
+    public ResponseEntity<InscricaoDTO> atualizar(@PathVariable Long id, @RequestBody InscricaoDTO dto) {
         try {
             Inscricao inscricao = service.atualizar(id, dto);
-            return ResponseEntity.ok(Map.of("id", inscricao.getId()));
+            InscricaoDTO resposta = new InscricaoDTO(inscricao.getAluno().getId(), inscricao.getTurma().getId(), inscricao.getDataHora());
+            return ResponseEntity.ok(resposta);
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().build();
         }
