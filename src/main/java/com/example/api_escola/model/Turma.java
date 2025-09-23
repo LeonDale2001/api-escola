@@ -1,7 +1,6 @@
 package com.example.api_escola.model;
 
 import jakarta.persistence.*;
-import java.util.List;
 
 @Entity
 public class Turma {
