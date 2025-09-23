@@ -19,7 +19,6 @@ public class InscricaoController {
         this.service = service;
     }
 
-    // POST usando DTO → retorna apenas ID
     @PostMapping
     public ResponseEntity<InscricaoDTO> criar(@RequestBody InscricaoDTO dto) {
         try {
@@ -31,7 +30,6 @@ public class InscricaoController {
         }
     }
 
-    // PUT por ID usando DTO → retorna apenas ID
     @PutMapping("/{id}")
     public ResponseEntity<InscricaoDTO> atualizar(@PathVariable Long id, @RequestBody InscricaoDTO dto) {
         try {
@@ -49,7 +47,6 @@ public class InscricaoController {
         return ResponseEntity.noContent().build();
     }
 
-    // GET por ID → retorna apenas dados principais do DTO
     @GetMapping("/{id}")
     public ResponseEntity<InscricaoDTO> buscar(@PathVariable Long id) {
         return service.buscarPorId(id)
@@ -58,7 +55,6 @@ public class InscricaoController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    // GET todos → lista de DTOs
     @GetMapping
     public List<InscricaoDTO> listar() {
         return service.listarTodos().stream()

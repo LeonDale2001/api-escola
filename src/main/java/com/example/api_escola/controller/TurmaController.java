@@ -18,7 +18,6 @@ public class TurmaController {
         this.service = service;
     }
 
-    // POST usando DTO → retorna apenas ID
     @PostMapping
     public ResponseEntity<TurmaDTO> criar(@RequestBody TurmaDTO dto) {
         try {
@@ -30,7 +29,6 @@ public class TurmaController {
         }
     }
 
-    // PUT por ID usando DTO → retorna apenas ID
     @PutMapping("/{id}")
     public ResponseEntity<TurmaDTO> atualizar(@PathVariable Long id, @RequestBody TurmaDTO dto) {
         try {
@@ -48,7 +46,6 @@ public class TurmaController {
         return ResponseEntity.noContent().build();
     }
 
-    // GET por ID → retorna apenas ID e dados principais do DTO
     @GetMapping("/{id}")
     public ResponseEntity<TurmaDTO> buscar(@PathVariable Long id) {
         return service.buscarPorId(id)
@@ -57,7 +54,6 @@ public class TurmaController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    // GET todos → lista de DTOs
     @GetMapping
     public List<TurmaDTO> listar() {
         return service.listarTodos().stream()
