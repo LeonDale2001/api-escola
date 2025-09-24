@@ -22,6 +22,7 @@ public class TurmaController {
     public ResponseEntity<TurmaDTO> criar(@RequestBody TurmaDTO dto) {
         Turma turma = service.salvar(dto);
         TurmaDTO resposta = new TurmaDTO(
+                turma.getId(),
                 turma.getAno(),
                 turma.getPeriodo(),
                 turma.getProfessor().getId()
@@ -33,6 +34,7 @@ public class TurmaController {
     public ResponseEntity<TurmaDTO> atualizar(@PathVariable Long id, @RequestBody TurmaDTO dto) {
         Turma turma = service.atualizar(id, dto);
         TurmaDTO resposta = new TurmaDTO(
+                turma.getId(),
                 turma.getAno(),
                 turma.getPeriodo(),
                 turma.getProfessor().getId()
@@ -50,6 +52,7 @@ public class TurmaController {
     public ResponseEntity<TurmaDTO> buscar(@PathVariable Long id) {
         return service.buscarPorId(id)
                 .map(t -> new TurmaDTO(
+                        t.getId(),
                         t.getAno(),
                         t.getPeriodo(),
                         t.getProfessor().getId()
@@ -62,6 +65,7 @@ public class TurmaController {
     public List<TurmaDTO> listar() {
         return service.listarTodos().stream()
                 .map(t -> new TurmaDTO(
+                        t.getId(),
                         t.getAno(),
                         t.getPeriodo(),
                         t.getProfessor().getId()

@@ -23,7 +23,11 @@ public class InscricaoController {
     public ResponseEntity<InscricaoDTO> criar(@RequestBody InscricaoDTO dto) {
         try {
             Inscricao inscricao = service.salvar(dto);
-            InscricaoDTO resposta = new InscricaoDTO(inscricao.getAluno().getId(), inscricao.getTurma().getId(), inscricao.getDataHora());
+            InscricaoDTO resposta = new InscricaoDTO(
+                inscricao.getId(),
+                inscricao.getAluno().getId(), 
+                inscricao.getTurma().getId(), 
+                inscricao.getDataHora());
             return ResponseEntity.ok(resposta);
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().build();
@@ -34,7 +38,11 @@ public class InscricaoController {
     public ResponseEntity<InscricaoDTO> atualizar(@PathVariable Long id, @RequestBody InscricaoDTO dto) {
         try {
             Inscricao inscricao = service.atualizar(id, dto);
-            InscricaoDTO resposta = new InscricaoDTO(inscricao.getAluno().getId(), inscricao.getTurma().getId(), inscricao.getDataHora());
+            InscricaoDTO resposta = new InscricaoDTO(
+                inscricao.getId(),
+                inscricao.getAluno().getId(), 
+                inscricao.getTurma().getId(), 
+                inscricao.getDataHora());
             return ResponseEntity.ok(resposta);
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().build();
@@ -50,7 +58,11 @@ public class InscricaoController {
     @GetMapping("/{id}")
     public ResponseEntity<InscricaoDTO> buscar(@PathVariable Long id) {
         return service.buscarPorId(id)
-                .map(i -> new InscricaoDTO(i.getAluno().getId(), i.getTurma().getId(), i.getDataHora()))
+                .map(i -> new InscricaoDTO(
+                    i.getId(),
+                    i.getAluno().getId(), 
+                    i.getTurma().getId(), 
+                    i.getDataHora()))
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
@@ -58,7 +70,11 @@ public class InscricaoController {
     @GetMapping
     public List<InscricaoDTO> listar() {
         return service.listarTodos().stream()
-                .map(i -> new InscricaoDTO(i.getAluno().getId(), i.getTurma().getId(), i.getDataHora()))
+                .map(i -> new InscricaoDTO(
+                    i.getId(),
+                    i.getAluno().getId(), 
+                    i.getTurma().getId(), 
+                    i.getDataHora()))
                 .toList();
     }
 }
