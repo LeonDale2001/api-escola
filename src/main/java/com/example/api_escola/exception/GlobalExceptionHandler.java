@@ -32,5 +32,4 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(body, HttpStatus.BAD_REQUEST);
     }
 
-    // Aqui você pode adicionar outras exceptions futuras, como TurmaException, InscricaoException etc.
 }
