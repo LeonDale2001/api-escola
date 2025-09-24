@@ -10,7 +10,10 @@ public class Turma {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
     private int ano;
+
+    @Column(nullable = false)
     private int periodo;
 
     // Uma turma possui 1 professor
@@ -25,12 +28,16 @@ public class Turma {
     // Getters e Setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
+
     public int getAno() { return ano; }
     public void setAno(int ano) { this.ano = ano; }
+
     public int getPeriodo() { return periodo; }
     public void setPeriodo(int periodo) { this.periodo = periodo; }
+
     public Professor getProfessor() { return professor; }
     public void setProfessor(Professor professor) { this.professor = professor; }
+
     public List<Inscricao> getInscricoes() { return inscricoes; }
     public void setInscricoes(List<Inscricao> inscricoes) { this.inscricoes = inscricoes; }
 }

@@ -20,24 +20,24 @@ public class TurmaController {
 
     @PostMapping
     public ResponseEntity<TurmaDTO> criar(@RequestBody TurmaDTO dto) {
-        try {
-            Turma turma = service.salvar(dto);
-            TurmaDTO resposta = new TurmaDTO(turma.getAno(), turma.getPeriodo(), turma.getProfessor().getId());
-            return ResponseEntity.ok(resposta);
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().build();
-        }
+        Turma turma = service.salvar(dto);
+        TurmaDTO resposta = new TurmaDTO(
+                turma.getAno(),
+                turma.getPeriodo(),
+                turma.getProfessor().getId()
+        );
+        return ResponseEntity.ok(resposta);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<TurmaDTO> atualizar(@PathVariable Long id, @RequestBody TurmaDTO dto) {
-        try {
-            Turma turma = service.atualizar(id, dto);
-            TurmaDTO resposta = new TurmaDTO(turma.getAno(), turma.getPeriodo(), turma.getProfessor().getId());
-            return ResponseEntity.ok(resposta);
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().build();
-        }
+        Turma turma = service.atualizar(id, dto);
+        TurmaDTO resposta = new TurmaDTO(
+                turma.getAno(),
+                turma.getPeriodo(),
+                turma.getProfessor().getId()
+        );
+        return ResponseEntity.ok(resposta);
     }
 
     @DeleteMapping("/{id}")
@@ -49,7 +49,11 @@ public class TurmaController {
     @GetMapping("/{id}")
     public ResponseEntity<TurmaDTO> buscar(@PathVariable Long id) {
         return service.buscarPorId(id)
-                .map(t -> new TurmaDTO(t.getAno(), t.getPeriodo(), t.getProfessor().getId()))
+                .map(t -> new TurmaDTO(
+                        t.getAno(),
+                        t.getPeriodo(),
+                        t.getProfessor().getId()
+                ))
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
@@ -57,7 +61,11 @@ public class TurmaController {
     @GetMapping
     public List<TurmaDTO> listar() {
         return service.listarTodos().stream()
-                .map(t -> new TurmaDTO(t.getAno(), t.getPeriodo(), t.getProfessor().getId()))
+                .map(t -> new TurmaDTO(
+                        t.getAno(),
+                        t.getPeriodo(),
+                        t.getProfessor().getId()
+                ))
                 .toList();
     }
 }
