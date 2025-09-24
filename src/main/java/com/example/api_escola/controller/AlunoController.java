@@ -21,14 +21,14 @@ public class AlunoController {
     @PostMapping
     public ResponseEntity<AlunoDTO> criar(@RequestBody Aluno aluno) {
         Aluno salvo = service.salvar(aluno);
-        AlunoDTO dto = new AlunoDTO(salvo.getId(), salvo.getNome(), salvo.getEmail());
+        AlunoDTO dto = new AlunoDTO(salvo.getId(), salvo.getNome(), salvo.getEmail(), salvo.getMatricula());
         return ResponseEntity.ok(dto);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<AlunoDTO> atualizar(@PathVariable Long id, @RequestBody Aluno aluno) {
         Aluno atualizado = service.atualizar(id, aluno);
-        AlunoDTO dto = new AlunoDTO(atualizado.getId(), atualizado.getNome(), atualizado.getEmail());
+        AlunoDTO dto = new AlunoDTO(atualizado.getId(), atualizado.getNome(), atualizado.getEmail(), atualizado.getMatricula());
         return ResponseEntity.ok(dto);
     }
     
@@ -41,7 +41,7 @@ public class AlunoController {
     @GetMapping("/{id}")
     public ResponseEntity<AlunoDTO> buscar(@PathVariable Long id) {
         return service.buscarPorId(id)
-                .map(a -> new AlunoDTO(a.getId(), a.getNome(), a.getEmail()))
+                .map(a -> new AlunoDTO(a.getId(), a.getNome(), a.getEmail(), a.getMatricula()))
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
@@ -49,7 +49,7 @@ public class AlunoController {
     @GetMapping
     public List<AlunoDTO> listar() {
         return service.listarTodos().stream()
-                .map(a -> new AlunoDTO(a.getId(), a.getNome(), a.getEmail()))
+                .map(a -> new AlunoDTO(a.getId(), a.getNome(), a.getEmail(), a.getMatricula()))
                 .toList();
     }
 }
