@@ -21,6 +21,11 @@ public class Turma {
     @JoinColumn(name = "professor_id")
     private Professor professor;
 
+    // Uma turma possui 1 disciplina
+    @ManyToOne
+    @JoinColumn(name = "disciplina_id", nullable = false)
+    private Disciplina disciplina;
+
     // Uma turma pode ter zero ou mais inscrições
     @OneToMany(mappedBy = "turma", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Inscricao> inscricoes;
@@ -37,6 +42,9 @@ public class Turma {
 
     public Professor getProfessor() { return professor; }
     public void setProfessor(Professor professor) { this.professor = professor; }
+
+    public Disciplina getDisciplina() { return disciplina; }
+    public void setDisciplina(Disciplina disciplina) { this.disciplina = disciplina; }
 
     public List<Inscricao> getInscricoes() { return inscricoes; }
     public void setInscricoes(List<Inscricao> inscricoes) { this.inscricoes = inscricoes; }

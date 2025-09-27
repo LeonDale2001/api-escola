@@ -5,22 +5,25 @@ public class TurmaDTO {
     private int ano;
     private int periodo;
     private Long professorId;
+    private Long disciplinaId;
 
     public TurmaDTO() {}
 
     // Construtor sem id (para criar)
-    public TurmaDTO(int ano, int periodo, Long professorId) {
+    public TurmaDTO(int ano, int periodo, Long professorId, Long disciplinaId) {
         this.ano = ano;
         this.periodo = periodo;
         this.professorId = professorId;
+        this.disciplinaId = disciplinaId;
     }
 
     // Construtor completo com id (para retorno)
-    public TurmaDTO(Long id, int ano, int periodo, Long professorId) {
+    public TurmaDTO(Long id, int ano, int periodo, Long professorId, Long disciplinaId) {
         this.id = id;
         this.ano = ano;
         this.periodo = periodo;
         this.professorId = professorId;
+        this.disciplinaId = disciplinaId;
     }
 
     // Getters e setters
@@ -35,4 +38,7 @@ public class TurmaDTO {
     
     public Long getProfessorId() { return professorId; }
     public void setProfessorId(Long professorId) { this.professorId = professorId; }
+
+    public Long getDisciplinaId() { return disciplinaId; }
+    public void setDisciplinaId(Long disciplinaId) { this.disciplinaId = disciplinaId; }
 }

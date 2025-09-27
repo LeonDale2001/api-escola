@@ -40,4 +40,9 @@ public class GlobalExceptionHandler {
     public ResponseEntity<Map<String, Object>> handleInscricaoException(InscricaoException ex) {
         return buildResponse(HttpStatus.BAD_REQUEST, ex.getMessage());
     }
+
+    @ExceptionHandler(DisciplinaException.class)
+    public ResponseEntity<Map<String, Object>> handleDisciplinaException(DisciplinaException ex) {
+        return buildResponse(HttpStatus.BAD_REQUEST, ex.getMessage());
+    }
 }

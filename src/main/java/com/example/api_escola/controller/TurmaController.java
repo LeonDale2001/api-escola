@@ -25,7 +25,8 @@ public class TurmaController {
                 turma.getId(),
                 turma.getAno(),
                 turma.getPeriodo(),
-                turma.getProfessor().getId()
+                turma.getProfessor().getId(),
+                turma.getDisciplina().getId()
         );
         return ResponseEntity.ok(resposta);
     }
@@ -37,7 +38,8 @@ public class TurmaController {
                 turma.getId(),
                 turma.getAno(),
                 turma.getPeriodo(),
-                turma.getProfessor().getId()
+                turma.getProfessor().getId(),
+                turma.getDisciplina().getId()
         );
         return ResponseEntity.ok(resposta);
     }
@@ -55,7 +57,8 @@ public class TurmaController {
                         t.getId(),
                         t.getAno(),
                         t.getPeriodo(),
-                        t.getProfessor().getId()
+                        t.getProfessor().getId(),
+                        t.getDisciplina().getId()
                 ))
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
@@ -68,7 +71,8 @@ public class TurmaController {
                         t.getId(),
                         t.getAno(),
                         t.getPeriodo(),
-                        t.getProfessor().getId()
+                        t.getProfessor().getId(),
+                        t.getDisciplina().getId()
                 ))
                 .toList();
     }

@@ -4,8 +4,10 @@ import com.example.api_escola.dto.TurmaDTO;
 import com.example.api_escola.exception.TurmaException;
 import com.example.api_escola.model.Professor;
 import com.example.api_escola.model.Turma;
+import com.example.api_escola.model.Disciplina;
 import com.example.api_escola.repository.ProfessorRepository;
 import com.example.api_escola.repository.TurmaRepository;
+import com.example.api_escola.repository.DisciplinaRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.Year;
@@ -17,10 +19,16 @@ public class TurmaService {
 
     private final TurmaRepository turmaRepository;
     private final ProfessorRepository professorRepository;
+    private final DisciplinaRepository disciplinaRepository;
 
-    public TurmaService(TurmaRepository turmaRepository, ProfessorRepository professorRepository) {
+    public TurmaService(
+            TurmaRepository turmaRepository,
+            ProfessorRepository professorRepository,
+            DisciplinaRepository disciplinaRepository
+    ) {
         this.turmaRepository = turmaRepository;
         this.professorRepository = professorRepository;
+        this.disciplinaRepository = disciplinaRepository;
     }
 
     // Criar Turma usando DTO
@@ -30,10 +38,14 @@ public class TurmaService {
         Professor professor = professorRepository.findById(dto.getProfessorId())
                 .orElseThrow(() -> new TurmaException("Professor não encontrado"));
 
+        Disciplina disciplina = disciplinaRepository.findById(dto.getDisciplinaId())
+                .orElseThrow(() -> new TurmaException("Disciplina não encontrada"));
+
         Turma turma = new Turma();
         turma.setAno(dto.getAno());
         turma.setPeriodo(dto.getPeriodo());
         turma.setProfessor(professor);
+        turma.setDisciplina(disciplina);
 
         return turmaRepository.save(turma);
     }
@@ -48,14 +60,21 @@ public class TurmaService {
         Professor professor = professorRepository.findById(dto.getProfessorId())
                 .orElseThrow(() -> new TurmaException("Professor não encontrado"));
 
+        Disciplina disciplina = disciplinaRepository.findById(dto.getDisciplinaId())
+                .orElseThrow(() -> new TurmaException("Disciplina não encontrada"));
+
         turma.setAno(dto.getAno());
         turma.setPeriodo(dto.getPeriodo());
         turma.setProfessor(professor);
+        turma.setDisciplina(disciplina);
 
         return turmaRepository.save(turma);
     }
 
     public void remover(Long id) {
+        if (!turmaRepository.existsById(id)) {
+            throw new TurmaException("Turma não encontrada com id: " + id);
+        }
         turmaRepository.deleteById(id);
     }
 
